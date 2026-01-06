@@ -1,368 +1,174 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title>Track Assets</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            padding-bottom: 80px;
-        }
-
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        background: #f4f4f4;
+        color: #333;
+      }
+      .navbar {
+        background-color: #62acfc;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        padding: 10px 0;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+      }
+      .navbar a {
+        color: white;
+        text-align: center;
+        padding: 14px 20px;
+        text-decoration: none;
+        font-size: 16px;
+        font-weight: bold;
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+      .navbar a:hover {
+        background-color: #003d7a;
+        color: #e0e0e0;
+      }
+      .container {
+        padding: 1rem;
+        max-width: 800px;
+        margin: 7rem auto;
+        text-align: left;
+        background-color: rgb(237, 246, 255);
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        position: relative;
+      }
+      h1 {
+        font-size: 2.5em;
+        margin-bottom: 20px;
+        color: #333;
+        text-align: center;
+      }
+      form {
+        display: flex;
+        flex-direction: column;
+      }
+      form .form-group {
+        margin-bottom: 15px;
+      }
+      form label {
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+      form input,
+      form select,
+      form textarea {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        width: 100%;
+        box-sizing: border-box;
+        margin-bottom: 10px;
+        font-size: 16px;
+      }
+      form .btn-primary {
+        align-self: flex-start;
+        background-color: #007bff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        transition: background-color 0.3s;
+        font-size: 16px;
+        color: white;
+        cursor: pointer;
+      }
+      form .btn-primary:hover {
+        background-color: #0056b3;
+      }
+      footer {
+        background-color: #333;
+        color: white;
+        text-align: center;
+        padding: 15px 0;
+        width: 100%;
+        position: relative;
+        bottom: 0;
+        margin-top: 20px;
+      }
+      @media (max-width: 600px) {
         .navbar {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 0;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 1000;
+          flex-direction: column;
         }
-
         .navbar a {
-            color: #4a5568;
-            text-align: center;
-            padding: 20px 30px;
-            text-decoration: none;
-            font-size: 15px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            position: relative;
-            letter-spacing: 0.3px;
+          padding: 10px;
+          font-size: 14px;
         }
-
-        .navbar a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #667eea, #764ba2);
-            transition: width 0.3s ease;
-        }
-
-        .navbar a:hover {
-            color: #667eea;
-        }
-
-        .navbar a:hover::after {
-            width: 80%;
-        }
-
-        .page-wrapper {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 100px 20px 40px;
-        }
-
         .container {
-            width: 100%;
-            max-width: 800px;
-            background: white;
-            padding: 50px;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-            animation: fadeInUp 0.5s ease;
+          margin: 5rem 1rem;
+          padding: 1rem;
         }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
         h1 {
-            color: #667eea;
-            text-align: center;
-            margin-bottom: 40px;
-            font-size: 32px;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            position: relative;
-            padding-bottom: 20px;
+          font-size: 2em;
         }
-
-        h1::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 4px;
-            background: linear-gradient(90deg, #667eea, #764ba2);
-            border-radius: 2px;
-        }
-
-        form {
-            display: flex;
-            flex-direction: column;
-        }
-
-        form .form-group {
-            margin-bottom: 25px;
-        }
-
-        form label {
-            font-weight: 600;
-            margin-bottom: 10px;
-            color: #4a5568;
-            font-size: 15px;
-            display: block;
-        }
-
-        form input,
-        form select,
-        form textarea {
-            padding: 14px 18px;
-            border: 2px solid #e2e8f0;
-            border-radius: 10px;
-            width: 100%;
-            box-sizing: border-box;
-            margin-bottom: 10px;
-            font-size: 15px;
-            transition: all 0.3s ease;
-            font-family: inherit;
-            background: white;
-        }
-
-        form input:focus,
-        form select:focus,
-        form textarea:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-        form input[type="number"] {
-            appearance: textfield;
-        }
-
-        form input[type="number"]::-webkit-inner-spin-button,
-        form input[type="number"]::-webkit-outer-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-
-        form select {
-            appearance: none;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23667eea"><path d="M7 10l5 5 5-5z"/></svg>');
-            background-repeat: no-repeat;
-            background-position: right 12px center;
-            background-size: 24px;
-            padding-right: 40px;
-            cursor: pointer;
-        }
-
-        form textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        form .btn-primary {
-            align-self: flex-start;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border: none;
-            padding: 16px 40px;
-            border-radius: 12px;
-            transition: all 0.3s ease;
-            font-size: 16px;
-            color: white;
-            cursor: pointer;
-            font-weight: 600;
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
-            margin-top: 10px;
-        }
-
-        form .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
-        }
-
-        form .btn-primary:active {
-            transform: translateY(-1px);
-        }
-
-        footer {
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
-            color: white;
-            text-align: center;
-            padding: 20px 0;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            font-size: 14px;
-            letter-spacing: 0.3px;
-        }
-
-        /* Django form specific styling */
-        form p {
-            margin-bottom: 25px;
-        }
-
-        form p label {
-            font-weight: 600;
-            margin-bottom: 10px;
-            color: #4a5568;
-            font-size: 15px;
-            display: block;
-        }
-
-        form p input,
-        form p select,
-        form p textarea {
-            padding: 14px 18px;
-            border: 2px solid #e2e8f0;
-            border-radius: 10px;
-            width: 100%;
-            box-sizing: border-box;
-            font-size: 15px;
-            transition: all 0.3s ease;
-            font-family: inherit;
-            background: white;
-        }
-
-        form p input:focus,
-        form p select:focus,
-        form p textarea:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-        form p select {
-            appearance: none;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23667eea"><path d="M7 10l5 5 5-5z"/></svg>');
-            background-repeat: no-repeat;
-            background-position: right 12px center;
-            background-size: 24px;
-            padding-right: 40px;
-            cursor: pointer;
-        }
-
-        @media (max-width: 768px) {
-            .navbar {
-                flex-wrap: wrap;
-            }
-
-            .navbar a {
-                padding: 15px 20px;
-                font-size: 14px;
-            }
-
-            .container {
-                padding: 35px 25px;
-            }
-
-            h1 {
-                font-size: 26px;
-            }
-
-            .page-wrapper {
-                padding: 90px 15px 30px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 22px;
-            }
-
-            .container {
-                padding: 30px 20px;
-            }
-
-            form input,
-            form select,
-            form textarea,
-            form p input,
-            form p select,
-            form p textarea {
-                padding: 12px 15px;
-                font-size: 14px;
-            }
-
-            form .btn-primary {
-                padding: 14px 35px;
-                font-size: 15px;
-                width: 100%;
-            }
-        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="navbar">
-        <a href="{% url 'index' %}">Home</a>
-        <a href="{% url 'home' %}">Asset</a>
-        <a href="{% url 'track' %}">Track Assets</a>
-        <a href="{% url 'maintenance' %}">Assets Maintenance</a>
-        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+      <a href="{% url 'index' %}">
+        <img src="{% static 'images/logo.png' %}" alt="Site Logo" height="30" />
+      </a>
+      <a href="{% url 'home' %}">Asset</a>
+      <a href="{% url 'track' %}">Track Assets</a>
+      <a href="{% url 'maintenance' %}">Assets Maintenance</a>
+      <a class="nav-link" href="{% url 'logout' %}">Logout</a>
     </div>
 
-    <div class="page-wrapper">
-        <div class="container">
-            <h1>Track Assets</h1>
-            <form method="post">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit" class="btn btn-primary">Lend Asset</button>
-            </form>
-        </div>
+    <div class="container">
+      <h1>Track Assets</h1>
+      <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Lend Asset</button>
+      </form>
     </div>
 
     <footer>
-        <p>&copy; 2024 Swahilipot Hub. All rights reserved.</p>
+      <p>&copy; 2024 Swahilipot Hub. All rights reserved.</p>
     </footer>
 
     <script>
-        $(document).ready(function() {
-            $('#id_asset').change(function() {
-                var assetId = $(this).val();
-                $.ajax({
-                    url: "{% url 'get_asset_ids' %}",
-                    data: {
-                        'asset_id': assetId
-                    },
-                    success: function(data) {
-                        var idField = $('#id_id');
-                        idField.empty();
-                        $.each(data.ids, function(index, value) {
-                            idField.append($('<option>', {
-                                value: value.id,
-                                text: value.unique_id
-                            }));
-                        });
-                    }
-                });
-            });
+      $(document).ready(function () {
+        $("#id_asset").change(function () {
+          var assetId = $(this).val();
+          $.ajax({
+            url: "{% url 'get_asset_ids' %}",
+            data: {
+              asset_id: assetId,
+            },
+            success: function (data) {
+              var idField = $("#id_id");
+              idField.empty();
+              $.each(data.ids, function (index, value) {
+                idField.append(
+                  $("<option>", {
+                    value: value.id,
+                    text: value.unique_id,
+                  })
+                );
+              });
+            },
+          });
         });
+      });
     </script>
-</body>
+  </body>
 </html>
