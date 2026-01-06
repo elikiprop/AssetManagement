@@ -5,158 +5,324 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Asset Management Dashboard</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            background: #f4f4f4;
-            padding-bottom: 60px; /* Ensure space for footer */
         }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding-bottom: 80px;
+        }
+
         .navbar {
-            background-color: #0056b3;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
             display: flex;
-            justify-content: space-around;
+            justify-content: center;
             align-items: center;
-            padding: 15px 0;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
             width: 100%;
             position: fixed;
             top: 0;
             left: 0;
             z-index: 1000;
         }
+
         .navbar a {
-            color: white;
+            color: #4a5568;
             text-align: center;
-            padding: 14px 20px;
+            padding: 20px 30px;
             text-decoration: none;
-            font-size: 16px;
-            font-weight: bold;
-            transition: background-color 0.3s ease, color 0.3s ease;
+            font-size: 15px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            letter-spacing: 0.3px;
         }
+
+        .navbar a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: width 0.3s ease;
+        }
+
         .navbar a:hover {
-            background-color: #003d7a;
-            color: #e0e0e0;
+            color: #667eea;
         }
+
+        .navbar a:hover::after {
+            width: 80%;
+        }
+
         .container {
-            padding: 80px 20px;
-            max-width: 1200px;
+            padding: 100px 20px 20px;
+            max-width: 1400px;
             margin: 0 auto;
+        }
+
+        h1 {
+            color: white;
+            font-size: 42px;
+            font-weight: 700;
             text-align: center;
+            margin-bottom: 50px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            letter-spacing: -0.5px;
         }
-        h1, h2 {
-            color: #333;
+
+        h2 {
+            color: white;
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            margin-top: 50px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
+
+        h2::before {
+            content: '';
+            width: 4px;
+            height: 28px;
+            background: white;
+            border-radius: 2px;
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            margin-bottom: 30px;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
-            background: #fff;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-        table th, table td {
-            border: 1px solid #ddd;
-            padding: 12px;
-            text-align: left;
-        }
+
         table th {
-            background-color: #0056b3;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
+            padding: 18px 20px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
-        table tr:nth-child(even) {
-            background-color: #f9f9f9;
+
+        table td {
+            padding: 18px 20px;
+            border-bottom: 1px solid #f0f0f0;
+            color: #4a5568;
+            font-size: 15px;
         }
+
+        table tr:last-child td {
+            border-bottom: none;
+        }
+
         table tr:hover {
-            background-color: #f1f1f1;
+            background-color: #f8f9ff;
         }
+
+        table td a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        table td a:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+
         .form-container {
-            margin-top: 20px;
+            margin-top: 30px;
             text-align: center;
         }
+
         .hidden {
             display: none;
         }
-        .form-container button {
-            background-color: #007bff;
-            color: white;
+
+        .form-container > button {
+            background: white;
+            color: #667eea;
             border: none;
-            padding: 12px 25px;
-            font-size: 18px;
-            font-weight: bold;
+            padding: 16px 40px;
+            font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
-            border-radius: 6px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-            transition: background-color 0.3s ease, transform 0.3s ease;
-            margin: 5px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+            margin: 10px;
         }
-        .form-container button:hover {
-            background-color: #0056b3;
-            transform: translateY(-2px);
-        }
-        .submit-button {
-            background-color: #28a745;
+
+        .form-container > button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            border: none;
-            padding: 12px 25px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            border-radius: 6px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-            transition: background-color 0.3s ease, transform 0.3s ease;
-            margin: 5px;
         }
-        .submit-button:hover {
-            background-color: #218838;
-            transform: translateY(-2px);
-        }
+
         .form-container form {
             display: flex;
             flex-direction: column;
             align-items: center;
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            margin-top: 20px;
+            animation: slideDown 0.3s ease;
         }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         .form-container input,
         .form-container select,
         .form-container textarea {
             width: 100%;
-            max-width: 400px;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            max-width: 500px;
+            padding: 14px 18px;
+            margin-bottom: 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
             box-sizing: border-box;
-            font-size: 16px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            font-family: inherit;
         }
+
+        .form-container input:focus,
+        .form-container select:focus,
+        .form-container textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
         .form-container input[type="number"] {
-            appearance: textfield; /* Hide spinner in Firefox */
+            appearance: textfield;
         }
+
         .form-container input[type="number"]::-webkit-inner-spin-button,
         .form-container input[type="number"]::-webkit-outer-spin-button {
             -webkit-appearance: none;
             margin: 0;
         }
+
+        .submit-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 16px 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .submit-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+        }
+
         .errorlist {
-            color: red;
+            color: #e53e3e;
             list-style: none;
             padding: 0;
-            margin: 0;
+            margin: 0 0 15px 0;
             font-size: 14px;
             text-align: left;
+            max-width: 500px;
         }
+
         .errorlist li {
-            margin-bottom: 10px;
+            margin-bottom: 8px;
+            padding: 10px;
+            background: #fff5f5;
+            border-radius: 6px;
+            border-left: 3px solid #e53e3e;
         }
+
+        .no-data {
+            background: white;
+            padding: 50px;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            color: #718096;
+            font-size: 16px;
+        }
+
         footer {
-            background-color: #333;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
             color: white;
             text-align: center;
-            padding: 15px 0;
+            padding: 20px 0;
             position: fixed;
             bottom: 0;
             width: 100%;
+            font-size: 14px;
+            letter-spacing: 0.3px;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-wrap: wrap;
+            }
+
+            .navbar a {
+                padding: 15px 20px;
+                font-size: 14px;
+            }
+
+            h1 {
+                font-size: 32px;
+            }
+
+            h2 {
+                font-size: 22px;
+            }
+
+            table {
+                font-size: 14px;
+            }
+
+            table th,
+            table td {
+                padding: 12px 15px;
+            }
         }
     </style>
 </head>
@@ -173,24 +339,26 @@
         <h1>Asset Management Dashboard</h1>
         
         <h2>Available Assets</h2>
-        <table>
-            <tr>
-                <th>ID</th>
-                <th>Asset</th>
-                <th>Total Quantity</th>
-                <th>Available Quantity</th>
-                <th>Date</th>
-            </tr>
-            {% for asset in assets %}
-            <tr>
-                <td>{{ asset.unique_id }}</td>
-                <td>{{ asset.name }}</td>
-                <td>{{ asset.total_quantity }}</td>
-                <td>{{ asset.available_quantity }}</td>
-                <td>{{ asset.arrival_date }}</td>
-            </tr>
-            {% endfor %}
-        </table>
+        <div class="table-container">
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>Asset</th>
+                    <th>Total Quantity</th>
+                    <th>Available Quantity</th>
+                    <th>Date</th>
+                </tr>
+                {% for asset in assets %}
+                <tr>
+                    <td>{{ asset.unique_id }}</td>
+                    <td>{{ asset.name }}</td>
+                    <td>{{ asset.total_quantity }}</td>
+                    <td>{{ asset.available_quantity }}</td>
+                    <td>{{ asset.arrival_date }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
 
         <div class="form-container">
             <button onclick="toggleForm()">Add Asset</button>
@@ -203,26 +371,30 @@
 
         <h2>Assets Taken</h2>
         {% if lent_assets %}
-            <table>
-                <tr>
-                    <th>Asset</th>
-                    <th>Quantity</th>
-                    <th>Date Lent</th>
-                    <th>Person</th>
-                    <th>Org Name</th>
-                </tr>
-                {% for lend in lent_assets %}
-                <tr>
-                    <td><a href="{% url 'return_asset' lend.id %}">{{ lend.asset.name }}</a></td>
-                    <td>{{ lend.quantity }}</td>
-                    <td>{{ lend.lent_date }}</td>
-                    <td>{{ lend.person_picking }}</td>
-                    <td>{{ lend.organisation }}</td>
-                </tr>
-                {% endfor %}
-            </table>
+            <div class="table-container">
+                <table>
+                    <tr>
+                        <th>Asset</th>
+                        <th>Quantity</th>
+                        <th>Date Lent</th>
+                        <th>Person</th>
+                        <th>Org Name</th>
+                    </tr>
+                    {% for lend in lent_assets %}
+                    <tr>
+                        <td><a href="{% url 'return_asset' lend.id %}">{{ lend.asset.name }}</a></td>
+                        <td>{{ lend.quantity }}</td>
+                        <td>{{ lend.lent_date }}</td>
+                        <td>{{ lend.person_picking }}</td>
+                        <td>{{ lend.organisation }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
         {% else %}
-            <p>No assets have been taken.</p>
+            <div class="no-data">
+                <p>No assets have been taken.</p>
+            </div>
         {% endif %}
     </div>
 
