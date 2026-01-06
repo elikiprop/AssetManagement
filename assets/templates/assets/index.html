@@ -5,98 +5,262 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Swahilipot Hub - Asset Management</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            background: #f4f4f4;
-            color: #333; /* Default text color */
         }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+            padding-bottom: 80px;
+        }
+
         .navbar {
-            background-color: #0056b3;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
             display: flex;
-            justify-content: space-around;
+            justify-content: center;
             align-items: center;
-            padding: 10px 0;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
             width: 100%;
             position: fixed;
             top: 0;
             left: 0;
             z-index: 1000;
         }
+
         .navbar a {
-            color: white;
+            color: #4a5568;
             text-align: center;
-            padding: 14px 20px;
+            padding: 20px 30px;
             text-decoration: none;
-            font-size: 16px;
-            font-weight: bold;
-            transition: background-color 0.3s ease, color 0.3s ease;
+            font-size: 15px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            letter-spacing: 0.3px;
         }
+
+        .navbar a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: width 0.3s ease;
+        }
+
         .navbar a:hover {
-            background-color: #003d7a;
-            color: #e0e0e0;
+            color: #667eea;
         }
-        .container {
-            padding: 150px 20px 80px; /* Adjusted padding to accommodate content */
-            max-width: 800px;
-            margin: 0 auto;
-            text-align: left; /* Align text to the left */
+
+        .navbar a:hover::after {
+            width: 80%;
         }
-        .container h1 {
-            font-size: 2.5em;
-            margin-bottom: 20px;
-            color: #333;
-            text-align: center; /* Center align headings */
-        }
-        .container p {
-            font-size: 1.2em;
-            color: #555;
-            line-height: 1.6; /* Improved line spacing for readability */
-            margin-bottom: 20px;
-        }
+
         .hero {
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('path/to/your/image.jpg') no-repeat center center/cover;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.9) 100%),
+                        url('path/to/your/image.jpg') no-repeat center center/cover;
             color: white;
-            padding: 100px 20px;
+            padding: 180px 20px 100px;
             text-align: center;
-            margin-bottom: 20px;
+            margin-top: 60px;
+            position: relative;
+            overflow: hidden;
         }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
         .hero h1 {
-            font-size: 3em;
-            margin-bottom: 10px;
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            letter-spacing: -0.5px;
+            animation: fadeInUp 0.8s ease;
         }
+
         .hero p {
-            font-size: 1.5em;
+            font-size: 1.4em;
             margin-bottom: 0;
+            font-weight: 400;
+            opacity: 0.95;
+            animation: fadeInUp 1s ease;
         }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .container {
+            padding: 60px 20px 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
         .section {
-            margin-bottom: 40px; /* Added spacing between sections */
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            margin-bottom: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
+
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.2);
+        }
+
         .section h2 {
-            font-size: 2em;
-            margin-bottom: 15px;
-            color: #0056b3; /* Highlight section headings */
+            font-size: 2.2em;
+            margin-bottom: 25px;
+            color: #667eea;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
+
+        .section h2::before {
+            content: '';
+            width: 5px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 3px;
+        }
+
+        .section p {
+            font-size: 1.15em;
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 25px;
+        }
+
         .section ul {
-            list-style-type: disc; /* Use bullet points for lists */
-            padding-left: 20px;
+            list-style: none;
+            padding-left: 0;
         }
+
         .section ul li {
             font-size: 1.1em;
-            line-height: 1.6;
-            margin-bottom: 10px;
+            line-height: 1.8;
+            margin-bottom: 18px;
+            color: #4a5568;
+            padding-left: 35px;
+            position: relative;
         }
+
+        .section ul li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
         footer {
-            background-color: #333;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
             color: white;
             text-align: center;
-            padding: 15px 0;
+            padding: 20px 0;
             position: fixed;
             bottom: 0;
             width: 100%;
+            font-size: 14px;
+            letter-spacing: 0.3px;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-wrap: wrap;
+            }
+
+            .navbar a {
+                padding: 15px 20px;
+                font-size: 14px;
+            }
+
+            .hero {
+                padding: 140px 20px 80px;
+            }
+
+            .hero h1 {
+                font-size: 2.2em;
+            }
+
+            .hero p {
+                font-size: 1.1em;
+            }
+
+            .section {
+                padding: 35px 25px;
+            }
+
+            .section h2 {
+                font-size: 1.8em;
+            }
+
+            .section p,
+            .section ul li {
+                font-size: 1em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.8em;
+            }
+
+            .hero p {
+                font-size: 1em;
+            }
+
+            .section h2 {
+                font-size: 1.5em;
+            }
         }
     </style>
 </head>
@@ -107,12 +271,13 @@
         <a href="{% url 'track' %}">Track Assets</a>
         <a href="{% url 'maintenance' %}">Assets Maintenance</a>
         <a class="nav-link" href="{% url 'logout' %}">Logout</a>
-        
     </div>
 
     <div class="hero">
-        <h1>Swahilipot Hub Assets management systems </h1>
-        <p>Manage and track your assets efficiently with our comprehensive system.</p>
+        <div class="hero-content">
+            <h1>Swahilipot Hub Assets Management System</h1>
+            <p>Manage and track your assets efficiently with our comprehensive system.</p>
+        </div>
     </div>
 
     <div class="container">
